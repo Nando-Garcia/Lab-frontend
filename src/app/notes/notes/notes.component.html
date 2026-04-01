@@ -3,14 +3,14 @@
     <h1>Mis Notas</h1>
     <div class="header-actions">
       <button class="btn-add" (click)="toggleForm()">
-        {{ showForm ? '✕ Cancelar' : '+ Nueva Nota' }}
+        {{ showForm() ? '✕ Cancelar' : '+ Nueva Nota' }}
       </button>
       <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
     </div>
   </header>
 
-  @if (showForm) {
-    <div class="note-form">
+  @if (showForm()) {
+    <div class="note-form" @fadeInOut>
       <h3>Crear nueva nota</h3>
       <div class="form-group">
         <input
@@ -35,13 +35,13 @@
     </div>
   }
 
-  @if (loading) {
-    <div class="loading">Cargando notas...</div>
+  @if (loading()) {
+    <div class="loading" @fadeInOut>Cargando notas...</div>
   } @else if (notes.length === 0) {
-    <div class="empty-state">
+    <div class="empty-state" @fadeInOut>
       <p>No tienes notas aún. ¡Crea tu primera nota!</p>
     </div>
-  } @else {
+  } @else if (!showForm()){
     <div class="notes-grid">
       @for (note of notes; track note.id) {
         <div class="note-card">
