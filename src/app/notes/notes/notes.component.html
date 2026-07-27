@@ -31,7 +31,13 @@
       @if (errorMessage) {
         <div class="error-message">{{ errorMessage }}</div>
       }
-      <button class="btn-save" (click)="createNote()">Guardar Nota</button>
+      <div class="form-actions">
+        <button class="btn-save" (click)="createNote()">Guardar Nota</button>
+        <label class="btn-attach">
+          📁 {{ selectedFile ? selectedFile.name : 'Adjuntar archivo (opcional)' }}
+          <input type="file" hidden (change)="onFormFileSelected($event)" />
+        </label>
+      </div>
     </div>
   }
 
