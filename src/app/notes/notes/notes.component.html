@@ -47,6 +47,20 @@
         <div class="note-card">
           <h3>{{ note.title }}</h3>
           <p>{{ note.content }}</p>
+
+          <div class="note-attachment">
+            @if (note.fileUrl) {
+              <a [href]="note.fileUrl" target="_blank" class="btn-file-link">Ver archivo adjunto</a>
+            }
+            <label class="btn-attach">
+              📁 {{ note.fileUrl ? 'Reemplazar archivo' : 'Adjuntar archivo' }}
+              <input
+                type="file"
+                hidden
+                (change)="onFileSelected(note.id!, $event)"
+              />
+            </label>
+          </div>
         </div>
       }
     </div>

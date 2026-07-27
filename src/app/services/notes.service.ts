@@ -17,4 +17,10 @@ export class NotesService {
   createNote(note: { title: string; content: string }): Observable<Note> {
     return this.http.post<Note>(this.apiUrl, note);
   }
+
+  attachFile(noteId: number, file: File): Observable<Note> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<Note>(`${this.apiUrl}/${noteId}/attachments`, form);
+  }
 }
