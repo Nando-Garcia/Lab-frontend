@@ -27,6 +27,7 @@ export class NotesComponent implements OnInit {
   notes: Note[] = [];
   newTitle = '';
   newContent = '';
+  selectedFile: File | null = null;
   loading = signal(false);
   showForm = signal(false);
   errorMessage = '';
@@ -60,15 +61,25 @@ export class NotesComponent implements OnInit {
       return;
     }
 
-    console.log('Aqui estoy', this.showForm);
-
     this.errorMessage = '';
     this.notesService.createNote({ title: this.newTitle, content: this.newContent }).subscribe({
       next: (note) => {
-        this.notes.push(note);
-        this.newTitle = '';
-        this.newContent = '';
-        this.showForm.set(false);
+        if (this.selectedFile) {
+          this.notesService.attachFile(note.id!, this.selectedFile).subscribe({
+            next: () => {
+              this.resetForm();
+              this.loadNotes();
+            },
+            error: () => {
+              this.errorMessage = 'Nota creada pero hubo un error al adjuntar el archivo';
+              this.resetForm();
+              this.loadNotes();
+            },
+          });
+        } else {
+          this.notes.push(note);
+          this.resetForm();
+        }
       },
       error: () => {
         this.errorMessage = 'Error al crear la nota';
@@ -76,9 +87,22 @@ export class NotesComponent implements OnInit {
     });
   }
 
+  resetForm(): void {
+    this.newTitle = '';
+    this.newContent = '';
+    this.selectedFile = null;
+    this.showForm.set(false);
+  }
+
   toggleForm(): void {
     this.showForm.set(!this.showForm());
     this.errorMessage = '';
+    this.selectedFile = null;
+  }
+
+  onFormFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input.files?.[0] ?? null;
   }
 
   onFileSelected(noteId: number, event: Event): void {
@@ -87,9 +111,8 @@ export class NotesComponent implements OnInit {
 
     const file = input.files[0];
     this.notesService.attachFile(noteId, file).subscribe({
-      next: (updated) => {
-        const idx = this.notes.findIndex((n) => n.id === noteId);
-        if (idx !== -1) this.notes[idx] = updated;
+      next: () => {
+        this.loadNotes();
       },
       error: () => {
         this.errorMessage = 'Error al adjuntar el archivo';

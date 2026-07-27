@@ -109,6 +109,13 @@
   text-align: center;
 }
 
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .btn-save {
   padding: 0.7rem 1.5rem;
   background: #69f0ae;
