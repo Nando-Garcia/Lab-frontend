@@ -81,6 +81,22 @@ export class NotesComponent implements OnInit {
     this.errorMessage = '';
   }
 
+  onFileSelected(noteId: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+    this.notesService.attachFile(noteId, file).subscribe({
+      next: (updated) => {
+        const idx = this.notes.findIndex((n) => n.id === noteId);
+        if (idx !== -1) this.notes[idx] = updated;
+      },
+      error: () => {
+        this.errorMessage = 'Error al adjuntar el archivo';
+      },
+    });
+  }
+
   logout(): void {
     this.authService.logout();
   }
