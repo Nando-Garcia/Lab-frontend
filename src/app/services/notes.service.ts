@@ -23,4 +23,8 @@ export class NotesService {
     form.append('file', file);
     return this.http.post<Note>(`${this.apiUrl}/${noteId}/attachments`, form);
   }
+
+  deleteNote(noteId: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${noteId}`);
+  }
 }

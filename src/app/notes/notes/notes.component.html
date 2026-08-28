@@ -51,7 +51,12 @@
     <div class="notes-grid">
       @for (note of notes; track note.id) {
         <div class="note-card">
-          <h3>{{ note.title }}</h3>
+          <div class="note-header">
+            <h3>{{ note.title }}</h3>
+            <button class="btn-delete-icon" (click)="deleteNote(note.id!)" title="Eliminar nota">
+              🗑️
+            </button>
+          </div>
           <p>{{ note.content }}</p>
 
           <div class="note-attachment">

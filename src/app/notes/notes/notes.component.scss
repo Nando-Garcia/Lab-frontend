@@ -183,6 +183,19 @@
   }
 }
 
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+
+  h3 {
+    margin: 0;
+    flex: 1;
+  }
+}
+
 .note-attachment {
   margin-top: 1rem;
   display: flex;
@@ -214,5 +227,23 @@
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.btn-delete-icon {
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
   }
 }
