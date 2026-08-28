@@ -120,6 +120,21 @@ export class NotesComponent implements OnInit {
     });
   }
 
+  deleteNote(noteId: number): void {
+    const confirmed = confirm('¿Estás seguro de que deseas eliminar esta nota? Se eliminará también el archivo adjunto.');
+    if (!confirmed) return;
+
+    this.notesService.deleteNote(noteId).subscribe({
+      next: () => {
+        this.loadNotes();
+        this.errorMessage = '';
+      },
+      error: () => {
+        this.errorMessage = 'Error al eliminar la nota';
+      },
+    });
+  }
+
   logout(): void {
     this.authService.logout();
   }
