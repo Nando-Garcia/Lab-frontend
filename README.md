@@ -1,89 +1,94 @@
-# Frontend
+﻿# Notes Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Angular application for the notes platform. It provides authentication, protected routes, note listing, note creation, and file upload interactions with the NestJS backend.
 
-## Development server
+## Overview
 
-To start a local development server, run:
+This client consumes the backend API and gives the user a simple, clear experience for managing notes. The UI was built to show real application flow, not just a static mockup: login, registration, note creation, attachment handling, and deletion lifecycle.
+
+## Tech Stack
+
+- Angular
+- TypeScript
+- RxJS
+- Angular Router
+- HttpClient
+- Standalone components
+- SCSS / CSS
+- Local storage for JWT persistence
+- Protected route guards
+- Auth interceptors
+
+## Features
+
+- Login and registration screens
+- Protected routing for authenticated users
+- Note listing from backend API
+- Create notes with optional metadata
+- File upload support through backend API
+- Delete note flow with instant UI refresh
+- Token handling via interceptor
+- Responsive and clean UI for portfolio presentation
+
+## Application Structure
+
+```text
+src/
+├── app/
+│   ├── app.config.ts
+│   ├── app.routes.ts
+│   ├── app.ts
+│   ├── app.html
+│   ├── app.scss
+│   ├── auth/
+│   │   ├── login/
+│   │   └── register/
+│   ├── guards/
+│   │   └── auth.guard.ts
+│   ├── interceptors/
+│   │   └── auth.interceptor.ts
+│   ├── models/
+│   │   ├── auth.model.ts
+│   │   └── note.model.ts
+│   ├── notes/
+│   │   └── notes/
+│   ├── services/
+│   │   ├── auth.service.ts
+│   │   └── notes.service.ts
+│   └── environments/
+│       ├── environment.ts
+│       └── environment.prod.ts
+└── styles.scss
+```
+
+## Local Development
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Then open:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Production Build
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Flow
 
-## Running unit tests
+1. User registers or logs in.
+2. Backend returns a JWT token.
+3. The frontend stores the token and injects it into requests.
+4. Notes are loaded from the protected API.
+5. Users can create notes or upload files associated with them.
+6. Deletion triggers a backend request and the UI updates immediately.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## License
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-
----
-
-## Estructura completa
-
-frontend/src/app/
-├── auth/
-│   ├── login/          (componente de login)
-│   └── register/       (componente de registro)
-├── notes/
-│   └── notes/          (dashboard de notas: lista + crear)
-├── guards/
-│   └── auth.guard.ts   (protege rutas que requieren token)
-├── interceptors/
-│   └── auth.interceptor.ts  (agrega Bearer token a cada request)
-├── models/
-│   ├── auth.model.ts   (interfaces de auth)
-│   └── note.model.ts   (interface de nota)
-├── services/
-│   ├── auth.service.ts (login, register, logout, token management)
-│   └── notes.service.ts (getNotes, createNote)
-├── app.routes.ts       (rutas con lazy loading + auth guard)
-└── app.config.ts       (HttpClient + interceptor configurados)
-
-
-Flujo:
-
-1. /login — Formulario de usuario/contraseña → POST /auth/login → guarda JWT en localStorage → redirige a /notes
-2. /register — Crear cuenta → POST /auth/register → redirige al login
+MIT
